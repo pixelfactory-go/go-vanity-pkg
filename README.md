@@ -1,1 +1,8 @@
-# Go Vanity Packages
+```
+npm install
+npm run dev
+```
+
+```
+npm run deploy
+```
