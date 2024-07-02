@@ -1,6 +1,6 @@
 #:schema node_modules/wrangler/config-schema.json
 name = "go-vanity-pkg"
-main = "src/index.js"
+main = "src/index.tsx"
 compatibility_date = "2024-06-20"
 compatibility_flags = ["nodejs_compat"]
 
