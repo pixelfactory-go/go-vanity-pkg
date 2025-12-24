@@ -24,5 +24,5 @@ jobs:
       - run: npm run coverage
       - uses: codecov/codecov-action@v4
         with:
-          files: ./coverage/coverage-final.xml
+          files: ./coverage/cobertura-coverage.xml
           token: ${{ secrets.CODECOV_TOKEN }}
