@@ -8,14 +8,14 @@
     "cf-typegen": "wrangler types --env-interface CloudflareBindings"
   },
   "dependencies": {
-    "hono": "^4.5.8",
-    "iconoir-react": "^7.7.0"
+    "hono": "^4.11.3",
+    "iconoir-react": "^7.11.0"
   },
   "devDependencies": {
     "@cloudflare/vitest-pool-workers": "^0.11.1",
-    "@cloudflare/workers-types": "^4.20240620.0",
-    "@vitest/coverage-istanbul": "^3.0.0",
+    "@cloudflare/workers-types": "^4.20251225.0",
+    "@vitest/coverage-istanbul": "^3.2.4",
     "vitest": "^3.0.0",
-    "wrangler": "^3.96.0"
+    "wrangler": "^4.54.0"
   }
 }
