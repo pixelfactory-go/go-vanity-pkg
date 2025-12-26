@@ -16,6 +16,6 @@
     "@cloudflare/workers-types": "^4.20240620.0",
     "@vitest/coverage-istanbul": "^3.0.0",
     "vitest": "^3.0.0",
-    "wrangler": "^3.57.2"
+    "wrangler": "^3.96.0"
   }
 }
