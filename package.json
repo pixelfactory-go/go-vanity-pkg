@@ -1,7 +1,12 @@
 {
   "name": "go-vanity-pkg",
   "scripts": {
-    "dev": "wrangler dev",
+    "css:build": "postcss src/styles/globals.css -o public/styles.css && cp public/styles.css styles.css",
+    "css:watch": "postcss src/styles/globals.css -o public/styles.css --watch",
+    "prebuild": "npm run css:build",
+    "build": "echo 'Build complete'",
+    "dev": "npm run css:build && wrangler dev",
+    "predeploy": "npm run css:build",
     "deploy": "wrangler deploy --minify",
     "test": "vitest",
     "coverage": "vitest run --coverage",
@@ -9,12 +14,18 @@
   },
   "dependencies": {
     "hono": "^4.11.3",
-    "iconoir-react": "^7.11.0"
+    "iconoir-react": "^7.11.0",
+    "lucide": "^0.562.0"
   },
   "devDependencies": {
     "@cloudflare/vitest-pool-workers": "^0.11.1",
     "@cloudflare/workers-types": "^4.20251225.0",
+    "@tailwindcss/postcss": "^4.1.18",
     "@vitest/coverage-istanbul": "^3.2.4",
+    "autoprefixer": "^10.4.23",
+    "postcss": "^8.5.6",
+    "postcss-cli": "^11.0.1",
+    "tailwindcss": "^4.1.18",
     "vitest": "^3.0.0",
     "wrangler": "^4.54.0"
   }
