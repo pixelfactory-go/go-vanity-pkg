@@ -23,6 +23,8 @@ yarn-debug.log*
 yarn-error.log*
 
 src/main.css
+public/styles.css
+styles.css
 
 .DS_Store
 .dev.vars
