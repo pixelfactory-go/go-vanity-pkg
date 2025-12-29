@@ -9,12 +9,30 @@ export const Layout = (props: { title: string; children?: any }) => {
       <title>${props.title}</title>
       <link rel="stylesheet" href="/styles.css" />
       <script>
-        if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-          document.documentElement.classList.add('dark')
-        }
+        // Prevent Flash of Unstyled Content (FOUC)
+        (function() {
+          try {
+            const theme = localStorage.getItem('theme-preference') ||
+                          (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')
+            if (theme === 'dark') {
+              document.documentElement.classList.add('dark')
+            }
+          } catch (e) {
+            // Fallback to system preference if localStorage unavailable
+            if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+              document.documentElement.classList.add('dark')
+            }
+          }
+        })()
       </script>
     </head>
     <body class="min-h-screen bg-background text-foreground antialiased">
+      <button
+        id="theme-toggle"
+        onclick="toggleTheme()"
+        class="fixed top-4 right-4 z-50 rounded-lg p-2 hover:bg-accent transition-colors group"
+        aria-label="Toggle theme"
+      ></button>
       <main class="mx-auto max-w-5xl px-4 py-12 sm:px-6 lg:px-8">
         ${props.children}
       </main>
@@ -22,6 +40,7 @@ export const Layout = (props: { title: string; children?: any }) => {
         <div class="mx-auto max-w-5xl px-4 py-6 sm:px-6 lg:px-8">
         </div>
       </footer>
+      <script src="/theme-toggle.js" defer></script>
     </body>
   </html>`
 }
