@@ -1,4 +1,5 @@
 import { html } from 'hono/html'
+import { SunIcon, MoonIcon } from './icons'
 
 export const Layout = (props: { title: string; children?: any }) => {
   return html`<!DOCTYPE html>
@@ -32,7 +33,10 @@ export const Layout = (props: { title: string; children?: any }) => {
         onclick="toggleTheme()"
         class="fixed top-4 right-4 z-50 rounded-lg p-2 hover:bg-accent transition-colors group"
         aria-label="Toggle theme"
-      ></button>
+      >
+        ${SunIcon({ className: 'h-5 w-5 text-foreground group-hover:text-yellow-500 transition-colors hidden dark:block' })}
+        ${MoonIcon({ className: 'h-5 w-5 text-foreground group-hover:text-blue-600 transition-colors block dark:hidden' })}
+      </button>
       <main class="mx-auto max-w-5xl px-4 py-12 sm:px-6 lg:px-8">
         ${props.children}
       </main>
