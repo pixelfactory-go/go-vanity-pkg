@@ -40,10 +40,6 @@ export const Layout = (props: { title: string; children?: any }) => {
       <main class="mx-auto max-w-5xl px-4 py-12 sm:px-6 lg:px-8">
         ${props.children}
       </main>
-      <footer class="mt-auto border-t border-border bg-gradient-to-r from-blue-50/30 to-purple-50/30 dark:from-blue-950/10 dark:to-purple-950/10">
-        <div class="mx-auto max-w-5xl px-4 py-6 sm:px-6 lg:px-8">
-        </div>
-      </footer>
       <script src="/theme-toggle.js" defer></script>
     </body>
   </html>`
