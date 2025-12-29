@@ -2,22 +2,6 @@
 
 A lightweight Go vanity import path server built with [Hono](https://hono.dev/) and deployed on [Cloudflare Workers](https://workers.cloudflare.com/).
 
-## What is a Vanity Import Path?
-
-Vanity import paths allow you to use custom domain names for your Go packages instead of hosting provider URLs. For example, instead of:
-
-```go
-import "github.com/pixelfactory-go/observability-log"
-```
-
-You can use:
-
-```go
-import "go.pixelfactory.io/pkg/observability/log"
-```
-
-This server handles the redirects and meta tags necessary for Go tooling to resolve your custom import paths.
-
 ## Features
 
 - Custom Go vanity import paths with automatic pkg.go.dev integration
@@ -42,32 +26,84 @@ npm install
 
 ## Configuration
 
-Edit `src/config.ts` to configure your packages:
+### Setting Up Your Vanity Domain
+
+1. **Configure your domain** in `src/config.ts`:
 
 ```typescript
 export const config: Config = {
-  godoc: "pkg.go.dev",
-  url: "go.pixelfactory.io",  // Your vanity domain
+  godoc: "pkg.go.dev",           // Documentation host
+  url: "go.yourdomain.com",      // Your vanity domain
   pkgs: [
     {
-      name: "pkg/observability/log",
-      repo: "github.com/pixelfactory-go/observability-log",
+      name: "pkg/server",
+      repo: "github.com/yourorg/server",
     },
-    // Add more packages...
+    {
+      name: "pkg/logger",
+      repo: "github.com/yourorg/logger",
+    },
   ],
 };
 ```
 
-### Package Configuration Options
+2. **DNS Configuration**: Point your domain to your Cloudflare Worker
+   - Add a DNS record (A, AAAA, or CNAME) for your vanity domain
+   - Configure it as a route in your Cloudflare Worker settings
 
-- `name`: The path segment after your domain (e.g., `pkg/server`)
-- `repo`: The actual repository URL (e.g., `github.com/user/repo`)
-- `godoc` (optional): Custom godoc URL (defaults to config.godoc)
-- `url` (optional): Custom domain (defaults to config.url)
-- `vcs` (optional): Version control system (defaults to "git")
-- `description` (optional): Package description
-- `modulePath` (optional): Full module path (auto-generated if not provided)
-- `docBadge` (optional): Documentation badge URL (auto-generated if not provided)
+3. **Update wrangler.toml** if needed to add custom routes or domains
+
+### Package Configuration
+
+Each package in the `pkgs` array supports the following options:
+
+#### Required Fields
+- `name`: Path segment after your domain
+  - Example: `"pkg/server"` creates `go.yourdomain.com/pkg/server`
+- `repo`: Actual repository location
+  - Example: `"github.com/yourorg/server"`
+
+#### Optional Fields
+- `url`: Override the global vanity domain for this package
+  - Default: Uses `config.url`
+- `godoc`: Override the documentation host
+  - Default: Uses `config.godoc` (typically "pkg.go.dev")
+- `vcs`: Version control system
+  - Default: `"git"`
+  - Options: `"git"`, `"hg"`, `"svn"`, `"bzr"`
+- `description`: Package description displayed on the web interface
+- `modulePath`: Full import path
+  - Default: Auto-generated as `${url}/${name}`
+- `docBadge`: Documentation badge URL
+  - Default: Auto-generated as `//pkg.go.dev/badge/${modulePath}.svg`
+
+### Configuration Example
+
+```typescript
+export const config: Config = {
+  godoc: "pkg.go.dev",
+  url: "go.example.com",
+  pkgs: [
+    {
+      name: "pkg/http",
+      repo: "github.com/example/http-server",
+      description: "HTTP server utilities",
+    },
+    {
+      name: "tools/cli",
+      repo: "github.com/example/cli-tools",
+      vcs: "git",
+      description: "Command-line tools",
+    },
+  ],
+};
+```
+
+This configuration allows users to import packages as:
+```go
+import "go.example.com/pkg/http"
+import "go.example.com/tools/cli"
+```
 
 ## Development
 
