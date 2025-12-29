@@ -44,3 +44,11 @@ export const FileTextIcon = (props: { className?: string }) => {
 export const ExternalLinkIcon = (props: { className?: string }) => {
   return renderIcon('ExternalLink', props.className)
 }
+
+export const SunIcon = (props: { className?: string }) => {
+  return renderIcon('Sun', props.className)
+}
+
+export const MoonIcon = (props: { className?: string }) => {
+  return renderIcon('Moon', props.className)
+}
