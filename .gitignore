@@ -24,8 +24,10 @@ yarn-error.log*
 
 src/main.css
 public/styles.css
+public/theme-toggle.js
 styles.css
 
 .DS_Store
 .dev.vars
 .wrangler
+.claude

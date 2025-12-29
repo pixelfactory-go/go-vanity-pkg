@@ -1,12 +1,14 @@
 {
   "name": "go-vanity-pkg",
+  "type": "module",
   "scripts": {
     "css:build": "postcss src/styles/globals.css -o public/styles.css && cp public/styles.css styles.css",
     "css:watch": "postcss src/styles/globals.css -o public/styles.css --watch",
-    "prebuild": "npm run css:build",
+    "js:build": "node scripts/build-theme-toggle.js",
+    "prebuild": "npm run css:build && npm run js:build",
     "build": "echo 'Build complete'",
-    "dev": "npm run css:build && wrangler dev",
-    "predeploy": "npm run css:build",
+    "dev": "npm run css:build && npm run js:build && wrangler dev",
+    "predeploy": "npm run css:build && npm run js:build",
     "deploy": "wrangler deploy --minify",
     "test": "vitest",
     "coverage": "vitest run --coverage",

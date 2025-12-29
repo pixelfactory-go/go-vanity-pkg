@@ -6,13 +6,13 @@ export default defineConfig({
     coverage: {
       provider: "istanbul",
       reporter: ["json", "html"],
-      include: ["src/**/*.{ts,tsx}", "public/**/*.js"],
+      include: ["src/**/*.{ts,tsx}"],
     },
     projects: [
       defineWorkersProject({
         test: {
           name: "workers",
-          include: ["test/index.test.ts"],
+          include: ["test/worker/**/*.test.ts"],
           poolOptions: {
             workers: {
               wrangler: { configPath: "./wrangler.toml" },
@@ -23,7 +23,7 @@ export default defineConfig({
       {
         test: {
           name: "browser",
-          include: ["test/theme-toggle.test.ts"],
+          include: ["test/components/**/*.test.ts"],
           environment: "happy-dom",
         },
       },
