@@ -14,34 +14,33 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: ["22.x"]
+        bun-version: ["1.2.23", "latest"]
 
     steps:
       - uses: actions/checkout@v4
 
-      - uses: actions/setup-node@v4
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
         with:
-          node-version: ${{ matrix.node-version }}
+          bun-version: ${{ matrix.bun-version }}
 
       - name: Install dependencies
-        run: npm ci
+        run: bun install --frozen-lockfile
 
-      - name: Build CSS
-        run: npm run css:build
+      - name: Build assets
+        run: bun run css:build && bun run js:build
 
       - name: Run tests
-        run: npm test
+        run: bun run test
 
       - name: Generate coverage
-        run: npm run coverage
+        if: matrix.bun-version == 'latest'
+        run: bun run coverage
 
       - name: Upload coverage to Codecov
+        if: matrix.bun-version == 'latest'
         uses: codecov/codecov-action@v4
         with:
-          files: ./coverage/coverage-final.xml
+          files: ./coverage/cobertura-coverage.xml
           token: ${{ secrets.CODECOV_TOKEN }}
-        continue-on-error: true
-
-      - name: Type check
-        run: npm run cf-typegen
         continue-on-error: true

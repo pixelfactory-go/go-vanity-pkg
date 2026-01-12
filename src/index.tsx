@@ -41,6 +41,39 @@ const getPackage = (name: string) => {
   return getPackages().find((p) => p.name == name);
 };
 
+// Serve static files when running on Bun (CloudFlare Workers handles this via assets config)
+// Must be before catch-all route
+if (typeof Bun !== 'undefined') {
+  app.get('/styles.css', async (c) => {
+    const file = Bun.file('./styles.css')
+    if (await file.exists()) {
+      return new Response(file, {
+        headers: { 'Content-Type': 'text/css' }
+      })
+    }
+    return c.notFound()
+  })
+
+  app.get('/theme-toggle.js', async (c) => {
+    const file = Bun.file('./public/theme-toggle.js')
+    if (await file.exists()) {
+      return new Response(file, {
+        headers: { 'Content-Type': 'application/javascript' }
+      })
+    }
+    return c.notFound()
+  })
+
+  app.get('/public/*', async (c) => {
+    const path = c.req.path.replace(/^\//, '')
+    const file = Bun.file(`./${path}`)
+    if (await file.exists()) {
+      return new Response(file)
+    }
+    return c.notFound()
+  })
+}
+
 app.get('/', (c) => {
   const packages = getPackages()
   return c.html(<PkgsPage pkgs={packages} />)
