@@ -5,7 +5,7 @@ export default defineConfig({
   test: {
     coverage: {
       provider: "istanbul",
-      reporter: ["json", "html"],
+      reporter: ["json", "html", "cobertura"],
       include: ["src/**/*.{ts,tsx}"],
     },
     projects: [
