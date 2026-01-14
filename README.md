@@ -11,6 +11,8 @@ A lightweight Go vanity import path server built with [Hono](https://hono.dev/) 
 
 Transform `github.com/yourorg/really-long-repo-name` into clean imports like `go.yourdomain.com/pkg` — while maintaining full control over your packages and paying nothing for hosting on Cloudflare's free tier.
 
+<img width="2056" height="758" alt="go-pixelfactory-io" src="https://github.com/user-attachments/assets/11b93e78-10e1-47f5-af2b-20f761a3a36a" />
+
 ## Table of Contents
 
 - [Features](#features)
