@@ -20,7 +20,8 @@ export type Config = {
 // Load configuration
 const loadConfig = (): Config => {
   // If CONFIG_PATH is set, load custom config (Docker with custom config)
-  if (process.env.CONFIG_PATH) {
+  // Note: process is not available in Cloudflare Workers, only in Node.js/Docker environments
+  if (typeof process !== 'undefined' && process.env?.CONFIG_PATH) {
     try {
       const { readFileSync } = require('fs');
       const fileContents = readFileSync(process.env.CONFIG_PATH, 'utf8');
