@@ -1,0 +1,10 @@
+{
+  "godoc": "pkg.go.dev",
+  "url": "go.example.com",
+  "pkgs": [
+    {
+      "name": "pkg/example",
+      "repo": "github.com/example/example-package"
+    }
+  ]
+}

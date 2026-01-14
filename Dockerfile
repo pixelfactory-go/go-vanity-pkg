@@ -36,6 +36,7 @@ COPY --from=builder /build/styles.css ./styles.css
 COPY src ./src
 COPY server.ts ./
 COPY tsconfig.json ./
+COPY config.example.json ./config.json
 
 # Expose port
 EXPOSE 3000
