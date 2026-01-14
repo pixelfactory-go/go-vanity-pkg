@@ -1,0 +1,22 @@
+{
+  "godoc": "pkg.go.dev",
+  "url": "go.pixelfactory.io",
+  "pkgs": [
+    {
+      "name": "pkg/observability/log",
+      "repo": "github.com/pixelfactory-go/observability-log"
+    },
+    {
+      "name": "pkg/observability/trace",
+      "repo": "github.com/pixelfactory-go/observability-trace"
+    },
+    {
+      "name": "pkg/server",
+      "repo": "github.com/pixelfactory-go/server"
+    },
+    {
+      "name": "pkg/version",
+      "repo": "github.com/pixelfactory-go/version"
+    }
+  ]
+}

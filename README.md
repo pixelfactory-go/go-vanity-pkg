@@ -32,23 +32,23 @@ bun install
 
 ### Setting Up Your Vanity Domain
 
-1. **Configure your domain** in `src/config.ts`:
+1. **Configure your domain** in `config.json`:
 
-```typescript
-export const config: Config = {
-  godoc: "pkg.go.dev",           // Documentation host
-  url: "go.yourdomain.com",      // Your vanity domain
-  pkgs: [
+```json
+{
+  "godoc": "pkg.go.dev",
+  "url": "go.yourdomain.com",
+  "pkgs": [
     {
-      name: "pkg/server",
-      repo: "github.com/yourorg/server",
+      "name": "pkg/server",
+      "repo": "github.com/yourorg/server"
     },
     {
-      name: "pkg/logger",
-      repo: "github.com/yourorg/logger",
-    },
-  ],
-};
+      "name": "pkg/logger",
+      "repo": "github.com/yourorg/logger"
+    }
+  ]
+}
 ```
 
 2. **DNS Configuration**: Point your domain to your Cloudflare Worker
@@ -58,6 +58,10 @@ export const config: Config = {
 3. **Update wrangler.toml** if needed to add custom routes or domains
 
 ### Package Configuration
+
+The configuration is loaded from `config.json` in the project root. This JSON file is:
+- **Bundled at build time** for Cloudflare Workers (via direct JSON import)
+- **Loaded at runtime** in Docker containers (with optional CONFIG_PATH override)
 
 Each package in the `pkgs` array supports the following options:
 
@@ -69,9 +73,9 @@ Each package in the `pkgs` array supports the following options:
 
 #### Optional Fields
 - `url`: Override the global vanity domain for this package
-  - Default: Uses `config.url`
+  - Default: Uses the global `url` value
 - `godoc`: Override the documentation host
-  - Default: Uses `config.godoc` (typically "pkg.go.dev")
+  - Default: Uses the global `godoc` value (typically "pkg.go.dev")
 - `vcs`: Version control system
   - Default: `"git"`
   - Options: `"git"`, `"hg"`, `"svn"`, `"bzr"`
@@ -83,24 +87,24 @@ Each package in the `pkgs` array supports the following options:
 
 ### Configuration Example
 
-```typescript
-export const config: Config = {
-  godoc: "pkg.go.dev",
-  url: "go.example.com",
-  pkgs: [
+```json
+{
+  "godoc": "pkg.go.dev",
+  "url": "go.example.com",
+  "pkgs": [
     {
-      name: "pkg/http",
-      repo: "github.com/example/http-server",
-      description: "HTTP server utilities",
+      "name": "pkg/http",
+      "repo": "github.com/example/http-server",
+      "description": "HTTP server utilities"
     },
     {
-      name: "tools/cli",
-      repo: "github.com/example/cli-tools",
-      vcs: "git",
-      description: "Command-line tools",
-    },
-  ],
-};
+      "name": "tools/cli",
+      "repo": "github.com/example/cli-tools",
+      "vcs": "git",
+      "description": "Command-line tools"
+    }
+  ]
+}
 ```
 
 This configuration allows users to import packages as:
@@ -108,6 +112,56 @@ This configuration allows users to import packages as:
 import "go.example.com/pkg/http"
 import "go.example.com/tools/cli"
 ```
+
+### Deployment Configuration
+
+#### Cloudflare Workers
+The configuration in `config.json` is automatically bundled at build/deploy time. Simply edit `config.json` and run:
+```bash
+bun run deploy
+```
+
+#### Docker Deployment
+
+**Important:** The pre-built Docker images contain only a placeholder config. You **must** provide your own `config.json` file.
+
+**Option 1: Use pre-built image with custom config** (Recommended)
+```bash
+# Create your custom config file
+cat > my-config.json << 'EOF'
+{
+  "godoc": "pkg.go.dev",
+  "url": "go.yourdomain.com",
+  "pkgs": [
+    {
+      "name": "pkg/server",
+      "repo": "github.com/yourorg/server"
+    }
+  ]
+}
+EOF
+
+# Run with CONFIG_PATH environment variable
+docker run -d \
+  -p 3000:3000 \
+  -e CONFIG_PATH=/config/config.json \
+  -v $(pwd)/my-config.json:/config/config.json:ro \
+  ghcr.io/pixelfactory-go/go-vanity-pkg:latest
+```
+
+**Option 2: Build custom image**
+```bash
+# Copy the example config and edit it
+cp config.example.json config.json
+# Edit config.json with your settings
+nano config.json
+
+# Build the image
+docker build -t my-vanity-pkg .
+docker run -d -p 3000:3000 my-vanity-pkg
+```
+
+**Note:** The Dockerfile copies `config.example.json` as the default config to prevent leaking the repository's internal configuration.
 
 ## Development
 
@@ -316,15 +370,17 @@ npm run coverage
 .
 ├── src/
 │   ├── index.tsx          # Main application entry point
-│   ├── config.ts          # Package configuration
+│   ├── config.ts          # Configuration loader and type definitions
 │   ├── pages/             # Page components
 │   ├── components/        # Reusable components
 │   └── styles/            # Tailwind CSS
 ├── public/                # Static assets
 ├── test/                  # Test files
 ├── scripts/               # Build scripts
-├── wrangler.toml         # Cloudflare Workers config
-└── package.json          # Dependencies and scripts
+├── config.json            # Package configuration (JSON)
+├── config.example.json    # Example config (used in Docker builds)
+├── wrangler.toml          # Cloudflare Workers config
+└── package.json           # Dependencies and scripts
 ```
 
 ## License

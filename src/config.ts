@@ -1,3 +1,5 @@
+import defaultConfig from '../config.json';
+
 export type Pkg = {
   name: string;
   repo: string;
@@ -15,25 +17,21 @@ export type Config = {
   pkgs: Pkg[];
 };
 
-export const config: Config = {
-  godoc: "pkg.go.dev",
-  url: "go.pixelfactory.io",
-  pkgs: [
-    {
-      name: "pkg/observability/log",
-      repo: "github.com/pixelfactory-go/observability-log",
-    },
-    {
-      name: "pkg/observability/trace",
-      repo: "github.com/pixelfactory-go/observability-trace",
-    },
-    {
-      name: "pkg/server",
-      repo: "github.com/pixelfactory-go/server",
-    },
-    {
-      name: "pkg/version",
-      repo: "github.com/pixelfactory-go/version",
-    },
-  ],
+// Load configuration
+const loadConfig = (): Config => {
+  // If CONFIG_PATH is set, load custom config (Docker with custom config)
+  if (process.env.CONFIG_PATH) {
+    try {
+      const { readFileSync } = require('fs');
+      const fileContents = readFileSync(process.env.CONFIG_PATH, 'utf8');
+      return JSON.parse(fileContents);
+    } catch (err) {
+      throw new Error(`Failed to load config from ${process.env.CONFIG_PATH}: ${err}`);
+    }
+  }
+
+  // Use bundled config.json (works for both Workers and Docker)
+  return defaultConfig as Config;
 };
+
+export const config: Config = loadConfig();
