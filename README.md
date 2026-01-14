@@ -1,6 +1,6 @@
 # Go Vanity Package Server
 
-> **Self-host Go vanity imports on Cloudflare Workers for free** — Professional import paths without the hosting costs
+> **Self-host Go vanity imports on Cloudflare Workers for free**
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Cloudflare Workers](https://img.shields.io/badge/Cloudflare-Workers-F38020?logo=cloudflare&logoColor=white)](https://workers.cloudflare.com/)
@@ -59,11 +59,10 @@ Just a single `config.json` file — no database, no complex setup. Compare to a
 |----------|------------------|--------------|-------------|
 | **go-vanity-pkg** | Single JSON file | $0 (CF free tier) | Global edge (< 50ms) |
 | nginx + VPS | nginx config, server management | ~$5-20/month | Single region |
-| uber-go/sally | Go binary, systemd setup | VPS required | Depends on hosting |
+| uber-go/sally | host setup | VPS required | Depends on hosting |
 | Google Cloud Run | Container + Cloud config | Pay per request | Regional |
 
 ### Production-Ready Features
-- **Automatic pkg.go.dev integration** — packages appear immediately after publishing
 - **Beautiful web UI** with dark/light theme for browsing your packages
 - **Flexible deployment** — Cloudflare Workers for edge hosting OR Docker for self-hosted control
 - **TypeScript-first** — full type safety with modern tooling (Hono + Bun)
@@ -76,7 +75,7 @@ This project powers package imports for several Go projects in production:
 // Instead of:
 import "github.com/pixelfactory-go/some-internal-package"
 
-// Use clean, professional imports:
+// Use clean imports:
 import "go.pixelfactory.io/pkg/server"
 import "go.pixelfactory.io/pkg/logger"
 ```
@@ -84,7 +83,7 @@ import "go.pixelfactory.io/pkg/logger"
 **Benefits:**
 - **Brand consistency** — All your packages under your domain
 - **Migration flexibility** — Move repos without breaking imports (change config, not code)
-- **Professional appearance** — Clean import paths for public APIs
+- **Clean appearance** — Clean import paths for public APIs
 - **Zero downtime** — Global edge distribution with automatic failover
 
 ## Prerequisites
@@ -93,7 +92,7 @@ import "go.pixelfactory.io/pkg/logger"
 - [Bun](https://bun.sh/) v1.0 or later - 3x faster, native TypeScript support
 
 **Deployment:**
-- **Cloudflare Workers**: Cloudflare account and Wrangler CLI (included in dependencies, works with Bun)
+- **Cloudflare Workers**: Cloudflare account and Wrangler CLI
 - **Docker**: Docker and Docker Compose (optional)
 
 ## Quick Start
@@ -249,7 +248,7 @@ docker run -d \
 # Copy the example config and edit it
 cp config.example.json config.json
 # Edit config.json with your settings
-nano config.json
+vim config.json
 
 # Build the image
 docker build -t my-vanity-pkg .
@@ -277,7 +276,6 @@ This will:
 The server will be available at `http://localhost:3000`
 
 **Why Bun?**
-- 🚀 3x faster than Node.js
 - 📦 Native TypeScript support (no compilation needed)
 - 🔥 Built-in hot reload
 - 💾 Smaller memory footprint
