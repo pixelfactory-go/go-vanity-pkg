@@ -1,6 +1,40 @@
 # Go Vanity Package Server
 
+> **Self-host Go vanity imports on Cloudflare Workers for free** — Professional import paths without the hosting costs
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![Cloudflare Workers](https://img.shields.io/badge/Cloudflare-Workers-F38020?logo=cloudflare&logoColor=white)](https://workers.cloudflare.com/)
+[![Docker](https://img.shields.io/badge/Docker-Ready-2496ED?logo=docker&logoColor=white)](https://hub.docker.com/)
+[![Bun](https://img.shields.io/badge/Runtime-Bun-000000?logo=bun&logoColor=white)](https://bun.sh/)
+
 A lightweight Go vanity import path server built with [Hono](https://hono.dev/) that supports both [Cloudflare Workers](https://workers.cloudflare.com/) and container-based deployments.
+
+Transform `github.com/yourorg/really-long-repo-name` into clean imports like `go.yourdomain.com/pkg` — while maintaining full control over your packages and paying nothing for hosting on Cloudflare's free tier.
+
+## Table of Contents
+
+- [Features](#features)
+- [Why This Project?](#why-this-project)
+  - [Free & Fast](#free--fast)
+  - [Simple Configuration](#simple-configuration)
+  - [Production-Ready Features](#production-ready-features)
+  - [Real-World Usage](#real-world-usage)
+- [Prerequisites](#prerequisites)
+- [Quick Start](#quick-start)
+- [Installation](#installation)
+- [Configuration](#configuration)
+  - [Setting Up Your Vanity Domain](#setting-up-your-vanity-domain)
+  - [Package Configuration](#package-configuration)
+  - [Deployment Configuration](#deployment-configuration)
+- [Development](#development)
+- [Deployment](#deployment)
+  - [Cloudflare Workers (Edge Deployment)](#option-1-cloudflare-workers-edge-deployment)
+  - [Docker (Container Deployment)](#option-2-docker-container-deployment)
+- [Testing](#testing)
+- [How It Works](#how-it-works)
+- [Project Structure](#project-structure)
+- [License](#license)
+- [Contributing](#contributing)
 
 ## Features
 
@@ -13,6 +47,46 @@ A lightweight Go vanity import path server built with [Hono](https://hono.dev/) 
   - Docker containers for self-hosted deployments
 - Tailwind CSS styling
 
+## Why This Project?
+
+### Free & Fast
+Unlike self-hosted solutions that require a VPS or alternatives that need paid infrastructure, **go-vanity-pkg runs on Cloudflare Workers' free tier** (100,000 requests/day). Deploy globally across 300+ edge locations with zero hosting costs and sub-50ms response times worldwide.
+
+### Simple Configuration
+Just a single `config.json` file — no database, no complex setup. Compare to alternatives:
+
+| Solution | Setup Complexity | Hosting Cost | Performance |
+|----------|------------------|--------------|-------------|
+| **go-vanity-pkg** | Single JSON file | $0 (CF free tier) | Global edge (< 50ms) |
+| nginx + VPS | nginx config, server management | ~$5-20/month | Single region |
+| uber-go/sally | Go binary, systemd setup | VPS required | Depends on hosting |
+| Google Cloud Run | Container + Cloud config | Pay per request | Regional |
+
+### Production-Ready Features
+- **Automatic pkg.go.dev integration** — packages appear immediately after publishing
+- **Beautiful web UI** with dark/light theme for browsing your packages
+- **Flexible deployment** — Cloudflare Workers for edge hosting OR Docker for self-hosted control
+- **TypeScript-first** — full type safety with modern tooling (Hono + Bun)
+
+### Real-World Usage
+
+This project powers package imports for several Go projects in production:
+
+```go
+// Instead of:
+import "github.com/pixelfactory-go/some-internal-package"
+
+// Use clean, professional imports:
+import "go.pixelfactory.io/pkg/server"
+import "go.pixelfactory.io/pkg/logger"
+```
+
+**Benefits:**
+- **Brand consistency** — All your packages under your domain
+- **Migration flexibility** — Move repos without breaking imports (change config, not code)
+- **Professional appearance** — Clean import paths for public APIs
+- **Zero downtime** — Global edge distribution with automatic failover
+
 ## Prerequisites
 
 **Development:**
@@ -21,6 +95,27 @@ A lightweight Go vanity import path server built with [Hono](https://hono.dev/) 
 **Deployment:**
 - **Cloudflare Workers**: Cloudflare account and Wrangler CLI (included in dependencies, works with Bun)
 - **Docker**: Docker and Docker Compose (optional)
+
+## Quick Start
+
+Get up and running in under 2 minutes:
+
+```bash
+# 1. Clone and install
+git clone https://github.com/pixelfactory-go/go-vanity-pkg.git
+cd go-vanity-pkg
+bun install
+
+# 2. Configure your packages
+cp config.example.json config.json
+# Edit config.json with your domain and packages
+
+# 3. Deploy to Cloudflare Workers (free tier)
+bunx wrangler login
+bun run deploy
+```
+
+That's it! Your vanity imports are now live on Cloudflare's global edge network.
 
 ## Installation
 
