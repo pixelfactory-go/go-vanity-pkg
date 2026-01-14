@@ -27,6 +27,13 @@ export default defineConfig({
           environment: "happy-dom",
         },
       },
+      {
+        test: {
+          name: "node",
+          include: ["test/config/**/*.test.ts"],
+          environment: "node",
+        },
+      },
     ],
   },
 });
