@@ -17,7 +17,7 @@
     "cf-typegen": "wrangler types --env-interface CloudflareBindings"
   },
   "dependencies": {
-    "hono": "^4.11.4",
+    "hono": "^4.11.5",
     "iconoir-react": "^7.11.0",
     "lucide": "^0.562.0"
   },
