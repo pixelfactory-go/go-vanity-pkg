@@ -22,7 +22,7 @@
     "lucide": "^0.562.0"
   },
   "devDependencies": {
-    "@cloudflare/vitest-pool-workers": "^0.12.6",
+    "@cloudflare/vitest-pool-workers": "^0.12.8",
     "@cloudflare/workers-types": "^4.20260122.0",
     "@tailwindcss/postcss": "^4.1.18",
     "@vitest/coverage-istanbul": "^3.2.4",
