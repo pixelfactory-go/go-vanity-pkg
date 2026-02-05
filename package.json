@@ -19,7 +19,7 @@
   "dependencies": {
     "hono": "^4.11.5",
     "iconoir-react": "^7.11.0",
-    "lucide": "^0.562.0"
+    "lucide": "^0.563.0"
   },
   "devDependencies": {
     "@cloudflare/vitest-pool-workers": "^0.12.9",
