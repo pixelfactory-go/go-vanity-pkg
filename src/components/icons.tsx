@@ -1,54 +1,37 @@
-import { icons } from 'lucide'
-import { html } from 'hono/html'
+import { ExternalLink, FileText, Github, Moon, Package, Sun } from 'lucide-static'
+import { html, raw } from 'hono/html'
 
 // Helper to render lucide icons as raw HTML
-const renderIcon = (iconName: keyof typeof icons, className?: string) => {
-  const iconData = icons[iconName]
-  if (!iconData) return ''
+const renderIcon = (svg: string, className?: string) => {
+  if (!className) return html`${raw(svg)}`
 
-  // Convert icon data array to SVG paths
-  const paths = iconData.map((item: any) => {
-    const [tag, attrs] = item
-    const attrString = Object.entries(attrs)
-      .map(([key, value]) => `${key}="${value}"`)
-      .join(' ')
-    return `<${tag} ${attrString} />`
-  }).join('')
+  const withClass = svg.includes('class="')
+    ? svg.replace('class="', `class="${className} `)
+    : svg.replace('<svg', `<svg class="${className}"`)
 
-  return html`<svg
-    xmlns="http://www.w3.org/2000/svg"
-    width="24"
-    height="24"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    stroke-width="2"
-    stroke-linecap="round"
-    stroke-linejoin="round"
-    class="${className || ''}"
-  >${html([paths])}</svg>`
+  return html`${raw(withClass)}`
 }
 
 export const PackageIcon = (props: { className?: string }) => {
-  return renderIcon('Package', props.className)
+  return renderIcon(Package, props.className)
 }
 
 export const GithubIcon = (props: { className?: string }) => {
-  return renderIcon('Github', props.className)
+  return renderIcon(Github, props.className)
 }
 
 export const FileTextIcon = (props: { className?: string }) => {
-  return renderIcon('FileText', props.className)
+  return renderIcon(FileText, props.className)
 }
 
 export const ExternalLinkIcon = (props: { className?: string }) => {
-  return renderIcon('ExternalLink', props.className)
+  return renderIcon(ExternalLink, props.className)
 }
 
 export const SunIcon = (props: { className?: string }) => {
-  return renderIcon('Sun', props.className)
+  return renderIcon(Sun, props.className)
 }
 
 export const MoonIcon = (props: { className?: string }) => {
-  return renderIcon('Moon', props.className)
+  return renderIcon(Moon, props.className)
 }
