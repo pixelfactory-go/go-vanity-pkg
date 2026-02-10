@@ -23,7 +23,7 @@
   },
   "devDependencies": {
     "@cloudflare/vitest-pool-workers": "^0.12.9",
-    "@cloudflare/workers-types": "^4.20260206.0",
+    "@cloudflare/workers-types": "^4.20260210.0",
     "@tailwindcss/postcss": "^4.1.18",
     "@vitest/coverage-istanbul": "^3.2.4",
     "autoprefixer": "^10.4.24",
